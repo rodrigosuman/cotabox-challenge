@@ -1,0 +1,12 @@
+# logs
+logs
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# dependency directories
+node_modules/
+database/data
+
+# vscode folder
+.vscode
