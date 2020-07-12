@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   mongo-express:
@@ -28,6 +28,19 @@ services:
     networks:
       - mongo-compose-network
 
-networks: 
-    mongo-compose-network:
-      driver: bridge
+  api:
+    build: .
+    depends_on:
+      - mongo
+      - mongo-express
+    command: node server.js
+    ports:
+      - "3333:3333"
+    volumes:
+      - .:/usr/api
+    networks:
+      - mongo-compose-network
+
+networks:
+  mongo-compose-network:
+    driver: bridge

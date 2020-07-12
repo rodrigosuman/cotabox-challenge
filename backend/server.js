@@ -21,4 +21,23 @@ app.use(limiter);
 
 require("./app/controllers")(app);
 
-app.listen(3000);
+app.listen(3333);
+
+console.log();
+console.log();
+console.log();
+console.log();
+console.log();
+console.log("################################################################");
+console.log("################################################################");
+console.log("Database : Conected to MongoDB");
+console.log(`Server at : http://localhost:3333`);
+console.log();
+console.log("The APIs authentication protection is ON");
+console.log("################################################################");
+console.log("################################################################");
+console.log();
+console.log();
+console.log();
+console.log();
+console.log();
