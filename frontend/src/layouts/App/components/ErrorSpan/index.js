@@ -12,7 +12,7 @@ function ErrorSpan() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => dispatch(setError(null)), 3000);
+    setTimeout(() => dispatch(setError(null)), 6000);
   }, []);
 
   return (

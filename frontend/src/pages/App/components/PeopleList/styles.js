@@ -27,3 +27,18 @@ export const Table = styled.table`
     }
   }
 `;
+
+export const EmptyListView = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  p {
+    font-size: 40px;
+    color: #ffffff45;
+    text-align: center;
+  }
+`;

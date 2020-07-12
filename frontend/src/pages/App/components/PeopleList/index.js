@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { Table, Container } from "./styles";
+import { Table, Container, EmptyListView } from "./styles";
 
 import { PieChart } from "react-minimal-pie-chart";
 
-import { Delete } from "@material-ui/icons";
+import { Delete, Block } from "@material-ui/icons";
 
 import { deletePersonDocument } from "../../../../services/people.service";
 
@@ -36,6 +36,22 @@ function PeopleList() {
 
     setChartData(aux);
   }, [data]);
+
+  if (!data.length) {
+    return (
+      <EmptyListView>
+        <Block
+          style={{
+            fontSize: 80,
+            color: "#ffffff45",
+            marginBottom: 40,
+          }}
+        />
+
+        <p>Empty people's list.</p>
+      </EmptyListView>
+    );
+  }
 
   return (
     <Container>
