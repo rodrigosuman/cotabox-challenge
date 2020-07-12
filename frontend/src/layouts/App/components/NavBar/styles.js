@@ -36,7 +36,7 @@ export const FormContent = styled.div`
 `;
 
 export const SubmitButton = styled.button`
-  width: 176px;
+  width: 123px;
   height: 49px;
   font-size: 18px;
   color: #fff;
