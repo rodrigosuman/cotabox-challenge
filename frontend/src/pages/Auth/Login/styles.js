@@ -30,7 +30,7 @@ export const Title = styled.p`
 
 export const SignUpLink = styled.p`
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   color: #fff;
   margin-top: 16px;
