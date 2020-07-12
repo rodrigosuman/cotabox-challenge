@@ -12,7 +12,10 @@ import { useUnform } from "../../../../modules/unform.module";
 
 import { createPeopleDocument } from "../../../../services/people.service";
 
-import { appendPeopleListAction } from "../../../../redux/ducks/People";
+import {
+  appendPeopleListAction,
+  setError,
+} from "../../../../redux/ducks/People";
 
 import { CircularProgress } from "@material-ui/core";
 
@@ -37,17 +40,17 @@ function NavBar() {
       <Form ref={formRef} onSubmit={handleSubmit}>
         <FormContent>
           <Input
-            customStyles={{ marginBottom: 0, marginRight: 16, width: 256 }}
+            customStyles={{ marginBottom: 0, marginRight: 16, width: 220 }}
             name="first_name"
             label="First name"
           />
           <Input
-            customStyles={{ marginBottom: 0, marginRight: 16, width: 256 }}
+            customStyles={{ marginBottom: 0, marginRight: 16, width: 220 }}
             name="last_name"
             label="Last name"
           />
           <Input
-            customStyles={{ marginBottom: 0, marginRight: 16, width: 256 }}
+            customStyles={{ marginBottom: 0, marginRight: 16, width: 220 }}
             name="participation"
             label="Participation"
             type="number"
@@ -87,7 +90,9 @@ function NavBar() {
           dispatch(appendPeopleListAction(data));
           reset();
         })
-        .catch((err) => console.log(err.response));
+        .catch(({ response: { data } }) => {
+          dispatch(setError(data.message));
+        });
 
       toggleSubmiting(false);
     } catch (err) {
