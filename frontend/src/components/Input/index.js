@@ -9,7 +9,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useField } from "@unform/core";
 
 function CustomInput(props) {
-  const { iconStart, placeholder, label, type, name } = props;
+  const { iconStart, placeholder, label, type, name, customStyles } = props;
 
   const [customType, setCustomType] = useState(type);
 
@@ -27,7 +27,7 @@ function CustomInput(props) {
   return (
     <Container>
       <p>{label}</p>
-      <InputContainer {...{ error }}>
+      <InputContainer style={customStyles} {...{ error }}>
         {/* {iconStart && iconStart} */}
         <Input
           ref={inputRef}
@@ -63,6 +63,7 @@ CustomInput.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
+  customStyles: PropTypes.object,
 };
 
 CustomInput.defaultProps = {
@@ -70,4 +71,5 @@ CustomInput.defaultProps = {
   label: "",
   type: "text",
   name: "name",
+  customStyles: {},
 };
