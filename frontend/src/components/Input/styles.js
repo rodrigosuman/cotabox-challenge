@@ -1,4 +1,27 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+const shake = keyframes`
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+`;
+
+const inputError = css`
+  border: 1px solid #ff0047;
+  animation: ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+`;
 
 export const Container = styled.div`
   p {
@@ -28,6 +51,8 @@ export const InputContainer = styled.div`
   svg {
     color: #ffffff45;
   }
+
+  ${({ error }) => error && inputError}
 `;
 
 export const Input = styled.input`
@@ -40,6 +65,6 @@ export const Input = styled.input`
   width: 100%;
 
   &:focus {
-    font-weight: 600;
+    font-weight: 500;
   }
 `;
