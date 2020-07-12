@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { Table } from "./styles";
+import { Table, Container } from "./styles";
 
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -15,8 +15,30 @@ import { setPeopleListAction } from "../../../../redux/ducks/People";
 function PeopleList() {
   const { data } = useSelector(({ peopleReducer }) => peopleReducer);
 
+  const dispatch = useDispatch();
+
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const color = () => {
+      let index = Math.floor(Math.random() * chartColors.length);
+      return chartColors[index];
+    };
+
+    const aux = data.map((item) => ({
+      title: `${item.first_name} ${item.last_name}`,
+      first_name: item.first_name,
+      last_name: item.last_name,
+      value: item.participation,
+      id: item._id,
+      color: color(),
+    }));
+
+    setChartData(aux);
+  }, [data]);
+
   return (
-    <div>
+    <Container>
       <Table>
         <tr>
           <th>First name</th>
@@ -26,14 +48,14 @@ function PeopleList() {
           <th></th>
         </tr>
 
-        {data.map((item, key) => (
+        {chartData.map((item, key) => (
           <tr key={key}>
             <td>{item.first_name}</td>
             <td>{item.last_name}</td>
             <td>{item.value}%</td>
             <td>
               <Delete
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", fontSize: 19 }}
                 onClick={() => handleDelete(item.id)}
               />
             </td>
@@ -50,7 +72,17 @@ function PeopleList() {
           </tr>
         ))}
       </Table>
-    </div>
+      <PieChart
+        style={{
+          width: 350,
+          height: 350,
+          marginLeft: 80,
+        }}
+        lineWidth={50}
+        paddingAngle={2}
+        data={chartData}
+      />
+    </Container>
   );
 
   function handleDelete(id) {
@@ -69,3 +101,14 @@ function PeopleList() {
 }
 
 export default PeopleList;
+
+const chartColors = [
+  "#6272a4",
+  "#8be9fd",
+  "#50fa7b",
+  "#ffb86c",
+  "#ff79c6",
+  "#bd93f9",
+  "#ff5555",
+  "#f1fa8c",
+];
