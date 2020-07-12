@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 
 import * as Yup from "yup";
 
+import { useDispatch } from "react-redux";
+
 import { Container, UserName, FormContent, SubmitButton } from "./styles";
 
 import { useAuth } from "../../../../contexts/auth.context";
@@ -9,6 +11,8 @@ import { useAuth } from "../../../../contexts/auth.context";
 import { useUnform } from "../../../../modules/unform.module";
 
 import { createPeopleDocument } from "../../../../services/people.service";
+
+import { appendPeopleListAction } from "../../../../redux/ducks/People";
 
 import { CircularProgress } from "@material-ui/core";
 
@@ -20,6 +24,8 @@ function NavBar() {
   const formRef = useRef(null);
 
   const [submiting, toggleSubmiting] = useState(false);
+
+  const dispatch = useDispatch();
 
   return (
     <Container>
@@ -58,8 +64,7 @@ function NavBar() {
     </Container>
   );
 
-  async function handleSubmit(data) {
-    console.log(data);
+  async function handleSubmit(data, { reset }) {
     try {
       toggleSubmiting(true);
 
@@ -78,7 +83,10 @@ function NavBar() {
         ...data,
         participation: Number(data.participation),
       })
-        .then((res) => console.log(res.data))
+        .then(({ data }) => {
+          dispatch(appendPeopleListAction(data));
+          reset();
+        })
         .catch((err) => console.log(err.response));
 
       toggleSubmiting(false);

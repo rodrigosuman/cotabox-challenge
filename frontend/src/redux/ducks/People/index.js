@@ -9,6 +9,13 @@ export function setPeopleListAction(payload) {
   };
 }
 
+export function appendPeopleListAction(payload) {
+  return {
+    type: "APPEND_PEOPLE_LIST",
+    payload,
+  };
+}
+
 export default function PeopleReducer(state = INITIAL_STATE, action) {
   const { type, payload } = action;
 
@@ -17,6 +24,12 @@ export default function PeopleReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         data: payload,
+      };
+
+    case "APPEND_PEOPLE_LIST":
+      return {
+        ...state,
+        data: [...state.data, payload],
       };
 
     default:
