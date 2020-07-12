@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-ReactDOM.render(
-  <React.Fragment>
-    <h1>Cotabox's challenge frontend</h1>
-  </React.Fragment>,
-  document.getElementById("root")
-);
+import Layouts from "./layouts";
+
+import "./assets/css/main.css";
+
+ReactDOM.render(<Layouts />, document.getElementById("root"));
