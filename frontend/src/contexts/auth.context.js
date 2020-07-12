@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import api from "../services/api.service";
 
@@ -19,18 +19,19 @@ function AuthProvider({ children }) {
   );
   const [sameUserToken, setSameUserToken] = useState(isSameUserToken());
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    api.interceptors.request.use(async function (config) {
-      const authorization = `Bearer ${localStorage.getItem(
-        "@cotaboxChallenge:token"
-      )}`;
-      config.headers.Authorization = authorization;
+  api.interceptors.request.use(async function (config) {
+    const authorization = `Bearer ${localStorage.getItem(
+      "@cotaboxChallenge:token"
+    )}`;
+    config.headers.Authorization = authorization;
 
-      return config;
-    });
-  }, [localStorage.getItem("@cotaboxChallenge:token")]);
+    return config;
+  });
+  // useEffect(() => {
+  //   console.log("trocando token");
+  // }, [localStorage.getItem("@cotaboxChallenge:token")]);
 
   useEffect(() => {
     setSameUserToken(isSameUserToken());
@@ -67,7 +68,7 @@ function AuthProvider({ children }) {
     setToken(null);
     localStorage.clear();
 
-    // dispatch({ type: "USER_LOGOUT" });
+    dispatch({ type: "USER_LOGOUT" });
   }
 
   function isSameUserToken() {
