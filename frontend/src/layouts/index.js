@@ -4,6 +4,7 @@ import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 
 import AuthLayout from "./Auth";
+import AppLayout from "./App";
 
 import { useAuth } from "../contexts/auth.context";
 
@@ -13,7 +14,7 @@ function Layouts() {
   return (
     <BrowserRouter>
       <Switch>
-        {!signed || !sameUserToken ? <AuthLayout /> : <h1>Wellcome</h1>}
+        {!signed || !sameUserToken ? <AuthLayout /> : <AppLayout />}
       </Switch>
     </BrowserRouter>
   );
