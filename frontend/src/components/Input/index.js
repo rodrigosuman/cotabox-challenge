@@ -43,6 +43,7 @@ function CustomInput(props) {
           type={customType}
           autoComplete="off"
           hidden={hidden}
+          step="any"
         />
 
         {type === "password" &&
