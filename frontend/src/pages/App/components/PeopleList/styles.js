@@ -31,7 +31,7 @@ export const Table = styled.table`
 export const EmptyListView = styled.div`
   display: flex;
   width: 100%;
-  height: 100px;
+  height: 350px;
   justify-content: center;
   align-items: center;
   flex-direction: column;

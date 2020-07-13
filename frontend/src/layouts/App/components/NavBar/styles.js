@@ -7,7 +7,7 @@ export const Container = styled.nav`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 48px;
+  padding: 24px 48px;
 `;
 
 export const UserName = styled.p`
@@ -16,7 +16,7 @@ export const UserName = styled.p`
   text-align: right;
   line-height: 24px;
   align-self: flex-end;
-  margin-bottom: 32px;
+  margin-bottom: 8px;
 
   strong {
     color: #ffffff59;
