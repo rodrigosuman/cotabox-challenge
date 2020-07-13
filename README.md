@@ -30,7 +30,6 @@ _This repository was created to store the code for the Cotabox's full-stack chal
       "local_ip": <your_local_ip>
     }
 
-
 :three: After that, navigate to the project's **root** folder and execute the following command in your terminal:
 
     sudo docker-compose up --build
@@ -39,11 +38,11 @@ _This repository was created to store the code for the Cotabox's full-stack chal
 
 #### :zap: **How to create a font-end build**
 
-:first: Navigate to the front-end folder:
+:one: Navigate to the front-end folder:
 
     cd ./frontend
 
-:second: Create the React's build bundle and move it to web-server:
+:two: Create the React's build bundle and move it to web-server:
 
     yarn build  &&  mv build ../webserver/public_html/challenge
 
