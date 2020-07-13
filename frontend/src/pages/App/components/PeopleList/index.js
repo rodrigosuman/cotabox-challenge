@@ -156,20 +156,12 @@ function PeopleList() {
 
   function handleDelete(id) {
     deletePersonDocument(id).then(() => {
-      const newPersonList = data
-        .map((item) => {
-          if (item._id !== id) {
-            return item;
-          }
-        })
-        .filter((item) => item !== undefined);
-
+      const newPersonList = removeIdFromPeoplesList(data, id);
       dispatch(setPeopleListAction(newPersonList));
     });
   }
 
   function handleEdit(params) {
-    console.log(params);
     const { id, participation, first_name, last_name } = params;
 
     editPersonDocument(id, {
@@ -178,13 +170,7 @@ function PeopleList() {
       participation: Number(participation),
     })
       .then((res) => {
-        const newPersonList = data
-          .map((item) => {
-            if (item._id !== id) {
-              return item;
-            }
-          })
-          .filter((item) => item !== undefined);
+        const newPersonList = removeIdFromPeoplesList(data, id);
 
         dispatch(setPeopleListAction([...newPersonList, res.data]));
         handleClose();
@@ -194,6 +180,19 @@ function PeopleList() {
         handleClose();
       });
     handleClose();
+  }
+
+  /**
+   * Remove a specific id from People's list and return an array.
+   */
+  function removeIdFromPeoplesList(peopleList, peopleId) {
+    return peopleList
+      .map((item) => {
+        if (item._id !== peopleId) {
+          return item;
+        }
+      })
+      .filter((item) => item !== undefined);
   }
 }
 
