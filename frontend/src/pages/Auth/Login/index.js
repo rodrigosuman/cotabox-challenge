@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import * as Yup from "yup";
 
-import { Container, SubmitButton, Title, SignUpLink } from "./styles";
+import { Container, SubmitButton, Title, SignUpLink, Error } from "./styles";
 
 /**
  * components
@@ -17,11 +17,15 @@ function Signin({ history }) {
   const { Input, Form } = useUnform();
   const formRef = useRef(null);
 
+  const [error, setError] = useState("");
+
   const { login } = useAuth();
 
   return (
     <Container>
       <Title>Hi there!</Title>
+
+      <Error>{error}</Error>
 
       <Form ref={formRef} onSubmit={handleSubmit}>
         <Input label="Email" type="email" name="email" />
@@ -46,7 +50,13 @@ function Signin({ history }) {
         abortEarly: false,
       });
       // Validation passed
-      login(data);
+      login(data).catch(({ response: { data } }) => {
+        setError(data.error);
+        formRef.current.setErrors({
+          email: "email is a required field",
+          password: "password is a required field",
+        });
+      });
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {

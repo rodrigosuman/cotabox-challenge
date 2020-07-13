@@ -40,3 +40,8 @@ export const SignUpLink = styled.p`
     text-decoration-line: underline;
   }
 `;
+
+export const Error = styled.p`
+  color: #ff5593;
+  margin-bottom: 32px;
+`;
