@@ -60,7 +60,11 @@ function AuthProvider({ children }) {
   }
 
   function singUp(userParams) {
-    return authServices.signUp(userParams);
+    return authServices.signUp(userParams).then(({ data }) => {
+      const { user, token } = data;
+      setUser(user);
+      setToken(token);
+    });
   }
 
   async function signOut() {
