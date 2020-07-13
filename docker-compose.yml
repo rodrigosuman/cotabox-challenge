@@ -41,6 +41,16 @@ services:
     networks:
       - mongo-compose-network
 
+  webserver:
+    image: webdevops/apache:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./webserver/public_html:/var/www/html"
+    environment:
+      WEB_DOCUMENT_ROOT: "/var/www/html"
+
 networks:
   mongo-compose-network:
     driver: bridge
