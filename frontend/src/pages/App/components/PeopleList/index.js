@@ -1,23 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { Table, Container, EmptyListView } from "./styles";
+import {
+  Table,
+  Container,
+  EmptyListView,
+  ContainerEdit,
+  SubmitButton,
+  Cancel,
+} from "./styles";
 
 import { PieChart } from "react-minimal-pie-chart";
 
-import { Delete, Block } from "@material-ui/icons";
+import { Delete, Block, Edit } from "@material-ui/icons";
 
-import { deletePersonDocument } from "../../../../services/people.service";
+import {
+  deletePersonDocument,
+  editPersonDocument,
+} from "../../../../services/people.service";
 
-import { setPeopleListAction } from "../../../../redux/ducks/People";
+import { setPeopleListAction, setError } from "../../../../redux/ducks/People";
+
+import { useUnform } from "../../../../modules/unform.module";
+import useComponents from "../../../../components/hooks/useComponents";
 
 function PeopleList() {
   const { data } = useSelector(({ peopleReducer }) => peopleReducer);
 
   const dispatch = useDispatch();
 
+  const { Form, Input } = useUnform();
+  const { Modal } = useComponents();
+
+  const formRef = useRef(null);
+
   const [chartData, setChartData] = useState([]);
+  const [modalState, setModalState] = useState({ value: false });
+
+  const handleClose = () => setModalState({ value: false, data: {} });
+  const handleShow = (data) => {
+    formRef.current.setData({
+      first_name: data.first_name,
+      last_name: data.last_name,
+      participation: data.value,
+      id: data.id,
+    });
+    setModalState({ value: true, data });
+  };
 
   useEffect(() => {
     const color = () => {
@@ -54,51 +84,74 @@ function PeopleList() {
   }
 
   return (
-    <Container>
-      <Table>
-        <tr>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Participation</th>
-          <th></th>
-          <th></th>
-        </tr>
-
-        {chartData.map((item, key) => (
-          <tr key={key}>
-            <td>{item.first_name}</td>
-            <td>{item.last_name}</td>
-            <td>{item.value}%</td>
-            <td>
-              <Delete
-                style={{ cursor: "pointer", fontSize: 19 }}
-                onClick={() => handleDelete(item.id)}
-              />
-            </td>
-            <td>
-              <div
-                style={{
-                  width: 16,
-                  height: 16,
-                  borderRadius: 8,
-                  background: item.color,
-                }}
-              />
-            </td>
+    <React.Fragment>
+      <Container>
+        <Table>
+          <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Participation</th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
-        ))}
-      </Table>
-      <PieChart
-        style={{
-          width: 350,
-          height: 350,
-          marginLeft: 80,
-        }}
-        lineWidth={50}
-        paddingAngle={2}
-        data={chartData}
-      />
-    </Container>
+
+          {chartData.map((item, key) => (
+            <tr key={key}>
+              <td>{item.first_name}</td>
+              <td>{item.last_name}</td>
+              <td>{item.value}%</td>
+              <td>
+                <Delete
+                  style={{ cursor: "pointer", fontSize: 19 }}
+                  onClick={() => handleDelete(item.id)}
+                />
+              </td>
+              <td>
+                <Edit
+                  style={{ cursor: "pointer", fontSize: 19 }}
+                  onClick={() => handleShow(item)}
+                />
+              </td>
+              <td>
+                <div
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: 8,
+                    background: item.color,
+                  }}
+                />
+              </td>
+            </tr>
+          ))}
+        </Table>
+        <PieChart
+          style={{
+            width: 250,
+            height: 250,
+            marginLeft: 80,
+          }}
+          lineWidth={50}
+          paddingAngle={2}
+          data={chartData}
+        />
+      </Container>
+
+      <Modal isOpen={modalState.value}>
+        <ContainerEdit>
+          <Form ref={formRef} onSubmit={handleEdit}>
+            <Input hidden name="id" label="Id" />
+            <Input name="first_name" label="First name" />
+            <Input name="last_name" label="Last name" />
+            <Input name="participation" label="Participation" type="number" />
+
+            <SubmitButton type="submit">Save</SubmitButton>
+            <Cancel onClick={handleClose}>Cancel</Cancel>
+          </Form>
+        </ContainerEdit>
+      </Modal>
+    </React.Fragment>
   );
 
   function handleDelete(id) {
@@ -113,6 +166,34 @@ function PeopleList() {
 
       dispatch(setPeopleListAction(newPersonList));
     });
+  }
+
+  function handleEdit(params) {
+    console.log(params);
+    const { id, participation, first_name, last_name } = params;
+
+    editPersonDocument(id, {
+      first_name,
+      last_name,
+      participation: Number(participation),
+    })
+      .then((res) => {
+        const newPersonList = data
+          .map((item) => {
+            if (item._id !== id) {
+              return item;
+            }
+          })
+          .filter((item) => item !== undefined);
+
+        dispatch(setPeopleListAction([...newPersonList, res.data]));
+        handleClose();
+      })
+      .catch(({ response: { data } }) => {
+        dispatch(setError(data.message));
+        handleClose();
+      });
+    handleClose();
   }
 }
 

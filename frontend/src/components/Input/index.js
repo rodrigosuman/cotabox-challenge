@@ -9,7 +9,15 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useField } from "@unform/core";
 
 function CustomInput(props) {
-  const { iconStart, placeholder, label, type, name, customStyles } = props;
+  const {
+    iconStart,
+    placeholder,
+    label,
+    type,
+    name,
+    customStyles,
+    hidden,
+  } = props;
 
   const [customType, setCustomType] = useState(type);
 
@@ -25,7 +33,7 @@ function CustomInput(props) {
   }, [fieldName, registerField]);
 
   return (
-    <Container>
+    <Container style={hidden && { display: "none" }}>
       <p>{label}</p>
       <InputContainer style={customStyles} {...{ error }}>
         {/* {iconStart && iconStart} */}
@@ -34,6 +42,7 @@ function CustomInput(props) {
           placeholder={placeholder}
           type={customType}
           autoComplete="off"
+          hidden={hidden}
         />
 
         {type === "password" &&
@@ -64,6 +73,7 @@ CustomInput.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
   customStyles: PropTypes.object,
+  hidden: PropTypes.bool,
 };
 
 CustomInput.defaultProps = {
