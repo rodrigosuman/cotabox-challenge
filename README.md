@@ -30,7 +30,8 @@ _This repository was created to store the code for the Cotabox's full-stack chal
       "local_ip": <your_local_ip>
     }
 
-:three: After that, navigate to the **root** project and execute the following command in your terminal:
+
+:three: After that, navigate to the project's **root** folder and execute the following command in your terminal:
 
     sudo docker-compose up --build
 
