@@ -6,6 +6,11 @@ _This repository was created to store the code for the Cotabox's full-stack chal
 
 ---
 
+### Deploy
+
+    Front-end: http://3.128.254.215/challenge
+    Back-end: http://3.128.254.215:3333
+
 ### Environment
 
     Prerequisites:
