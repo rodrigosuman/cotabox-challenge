@@ -2,9 +2,9 @@ FROM node:alpine
 
 WORKDIR /usr/api
 
-COPY package*.json ./
+COPY ./backend/package*.json ./
 
-COPY . .
+COPY ./backend .
 
 EXPOSE 3333
 
