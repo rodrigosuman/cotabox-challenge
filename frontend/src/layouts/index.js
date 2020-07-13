@@ -1,7 +1,7 @@
 import React from "react";
 
 // import { Container } from './styles';
-import { BrowserRouter, Switch } from "react-router-dom";
+import { HashRouter, Switch } from "react-router-dom";
 
 import AuthLayout from "./Auth";
 import AppLayout from "./App";
@@ -12,11 +12,11 @@ function Layouts() {
   const { signed, sameUserToken } = useAuth();
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         {!signed || !sameUserToken ? <AuthLayout /> : <AppLayout />}
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
